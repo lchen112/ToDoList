@@ -47,18 +47,22 @@ function App(props) {
     setTodos(updatedTodos);
   };
 
-  const editTodo = (id) => {
-    // const updatedTodos = todos.filter((todo) => todo.id !== id);
-    // setTodos(updatedTodos);
-    // const updatedTodos = todos.map((todo) => todo.id == id ? todo.val = )
+  const editTodo = (id, newName) => {
+    const updatedTodos = todos.map((todo) => {
+      if (id === todo.id) {
+        return { ...todo, val: newName };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
   };
 
-  const toggleEditingMode = (id) => {
-    setEditing(true);
+  const toggleEditingMode = (defaultState = true) => {
+    setEditing(defaultState);
   };
   return (
     <div className="todoapp stack-large">
-      <h1>To Do List </h1>
+      <h1>My To Do List </h1>
       <Form addTask={addTask} />
 
       <h2 id="list-heading">{getNumTasksRemaining(todos)}</h2>

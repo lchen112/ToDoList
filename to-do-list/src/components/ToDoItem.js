@@ -1,16 +1,35 @@
 import React from "react";
+import { useState } from "react";
 
 const EditingTemplate = (props) => {
+  const [newName, setNewName] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.editTodo(props.id, newName);
+    props.toggleEditingMode(false);
+  };
+
   return (
-    <form className="stack-small" onSubmit={props.editTodo(props.id)}>
+    <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="todo-label" htmlFor={props.id}>
-          New name for {props.name} :
+          Rename task {props.name} :
         </label>
-        <input id={props.id} className="todo-text" type="text" />
+        <input
+          id={props.id}
+          className="todo-text"
+          type="text"
+          value={newName}
+          onChange={(event) => setNewName(event.target.value)}
+        />
       </div>
       <div className="btn-group">
-        <button type="button" className="btn todo-cancel">
+        <button
+          type="cancel"
+          className="btn todo-cancel"
+          onClick={() => props.toggleEditingMode(false)}
+        >
           Cancel
           <span className="visually-hidden">renaming {props.name}</span>
         </button>
@@ -29,7 +48,7 @@ const ViewingTemplate = ({
   toggleTaskCompleted,
   id,
   name,
-  complete = false,
+  complete,
 }) => {
   return (
     <div>

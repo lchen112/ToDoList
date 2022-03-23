@@ -102,6 +102,7 @@ body {
 .btn-group {
   display: flex;
   justify-content: space-between;
+  margin-top: 16px;
 }
 .btn-group > * {
   flex: 1 1 49%;
