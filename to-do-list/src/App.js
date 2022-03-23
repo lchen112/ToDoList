@@ -1,3 +1,8 @@
+import ToDoItem from "./components/ToDoItem";
+import { useState } from "react";
+import React from "react";
+import FilterButton from "./components/FilterButton";
+import { getNumTasksRemaining } from "./utils";
 /** Objectives
 As a user, I can
 read a list of tasks.
@@ -9,6 +14,13 @@ view a specific subset of tasks: All tasks, only the active task, or only the co
 
  */
 function App(props) {
+  const [todos, setTodos] = useState([
+    { val: "Sleep", complete: true },
+    { val: "Eat", complete: false },
+    { val: "Bathe", complete: true },
+    { val: "Exercise", complete: false },
+    { val: "Watch Movie", complete: false },
+  ]);
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
@@ -30,76 +42,20 @@ function App(props) {
         </button>
       </form>
       <div className="filters btn-group stack-exception">
-        <button type="button" className="btn toggle-btn" aria-pressed="true">
-          <span className="visually-hidden">Show </span>
-          <span>all</span>
-          <span className="visually-hidden"> tasks</span>
-        </button>
-        <button type="button" className="btn toggle-btn" aria-pressed="false">
-          <span className="visually-hidden">Show </span>
-          <span>Active</span>
-          <span className="visually-hidden"> tasks</span>
-        </button>
-        <button type="button" className="btn toggle-btn" aria-pressed="false">
-          <span className="visually-hidden">Show </span>
-          <span>Completed</span>
-          <span className="visually-hidden"> tasks</span>
-        </button>
+        <FilterButton name={"All"} />
+        <FilterButton name={"Active"} />
+        <FilterButton name={"Completed"} />
       </div>
-      <h2 id="list-heading">3 tasks remaining</h2>
+      <h2 id="list-heading">{getNumTasksRemaining(todos)} tasks remaining</h2>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-        <li className="todo stack-small">
-          <div className="c-cb">
-            <input id="todo-0" type="checkbox" defaultChecked={true} />
-            <label className="todo-label" htmlFor="todo-0">
-              Eat
-            </label>
-          </div>
-          <div className="btn-group">
-            <button type="button" className="btn">
-              Edit <span className="visually-hidden">Eat</span>
-            </button>
-            <button type="button" className="btn btn__danger">
-              Delete <span className="visually-hidden">Eat</span>
-            </button>
-          </div>
-        </li>
-        <li className="todo stack-small">
-          <div className="c-cb">
-            <input id="todo-1" type="checkbox" />
-            <label className="todo-label" htmlFor="todo-1">
-              Sleep
-            </label>
-          </div>
-          <div className="btn-group">
-            <button type="button" className="btn">
-              Edit <span className="visually-hidden">Sleep</span>
-            </button>
-            <button type="button" className="btn btn__danger">
-              Delete <span className="visually-hidden">Sleep</span>
-            </button>
-          </div>
-        </li>
-        <li className="todo stack-small">
-          <div className="c-cb">
-            <input id="todo-2" type="checkbox" />
-            <label className="todo-label" htmlFor="todo-2">
-              Repeat
-            </label>
-          </div>
-          <div className="btn-group">
-            <button type="button" className="btn">
-              Edit <span className="visually-hidden">Repeat</span>
-            </button>
-            <button type="button" className="btn btn__danger">
-              Delete <span className="visually-hidden">Repeat</span>
-            </button>
-          </div>
-        </li>
+        {todos &&
+          todos.map((todo, index) => (
+            <ToDoItem key={index} name={todo.val} complete={todo.complete} />
+          ))}
       </ul>
     </div>
   );
