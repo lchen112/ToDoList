@@ -29,7 +29,11 @@ const Form = ({ addTask }) => {
         value={name}
         onChange={handleChange}
       />
-      <button type="submit" className="btn btn__primary btn__lg">
+      <button
+        disabled={name == ""}
+        type="submit"
+        className="btn btn__primary btn__lg"
+      >
         Add
       </button>
     </form>

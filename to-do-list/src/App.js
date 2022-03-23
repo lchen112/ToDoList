@@ -5,6 +5,7 @@ import FilterButton from "./components/FilterButton";
 import { getNumTasksRemaining } from "./utils";
 import Form from "./components/Form";
 import { nanoid } from "nanoid";
+import { isEditable } from "@testing-library/user-event/dist/utils";
 /** Objectives
 As a user, I can
 read a list of tasks.
@@ -16,6 +17,8 @@ view a specific subset of tasks: All tasks, only the active task, or only the co
 
  */
 function App(props) {
+  const [isEditing, setEditing] = useState(false);
+
   const [todos, setTodos] = useState([
     { id: "todo-" + nanoid(), val: "Sleep", complete: true },
     { id: "todo-" + nanoid(), val: "Eat", complete: false },
@@ -43,19 +46,21 @@ function App(props) {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
   };
+
   const editTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
+    // const updatedTodos = todos.filter((todo) => todo.id !== id);
+    // setTodos(updatedTodos);
+    // const updatedTodos = todos.map((todo) => todo.id == id ? todo.val = )
+  };
+
+  const toggleEditingMode = (id) => {
+    setEditing(true);
   };
   return (
     <div className="todoapp stack-large">
       <h1>To Do List </h1>
       <Form addTask={addTask} />
-      <div className="filters btn-group stack-exception">
-        <FilterButton name={"All"} />
-        <FilterButton name={"Active"} />
-        <FilterButton name={"Completed"} />
-      </div>
+
       <h2 id="list-heading">{getNumTasksRemaining(todos)}</h2>
       <ul
         role="list"
@@ -73,6 +78,8 @@ function App(props) {
               toggleTaskCompleted={toggleTaskCompleted}
               deleteTodo={deleteTodo}
               editTodo={editTodo}
+              toggleEditingMode={toggleEditingMode}
+              isEditing={isEditing}
             />
           ))}
       </ul>
