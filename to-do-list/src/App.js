@@ -29,6 +29,24 @@ function App(props) {
     setTodos([...todos, newTodo]);
   };
 
+  const toggleTaskCompleted = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (id === todo.id) {
+        return { ...todo, complete: !todo.complete };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  const deleteTodo = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+  };
+  const editTodo = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+  };
   return (
     <div className="todoapp stack-large">
       <h1>To Do List </h1>
@@ -38,7 +56,7 @@ function App(props) {
         <FilterButton name={"Active"} />
         <FilterButton name={"Completed"} />
       </div>
-      <h2 id="list-heading">{getNumTasksRemaining(todos)} tasks remaining</h2>
+      <h2 id="list-heading">{getNumTasksRemaining(todos)}</h2>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
@@ -52,6 +70,9 @@ function App(props) {
               id={todo.id}
               name={todo.val}
               complete={todo.complete}
+              toggleTaskCompleted={toggleTaskCompleted}
+              deleteTodo={deleteTodo}
+              editTodo={editTodo}
             />
           ))}
       </ul>
