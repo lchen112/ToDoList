@@ -60,6 +60,7 @@ function App(props) {
   const toggleEditingMode = (defaultState = true) => {
     setEditing(defaultState);
   };
+
   return (
     <div className="todoapp stack-large">
       <h1>My To Do List </h1>
