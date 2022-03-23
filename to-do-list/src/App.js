@@ -3,6 +3,8 @@ import { useState } from "react";
 import React from "react";
 import FilterButton from "./components/FilterButton";
 import { getNumTasksRemaining } from "./utils";
+import Form from "./components/Form";
+import { nanoid } from "nanoid";
 /** Objectives
 As a user, I can
 read a list of tasks.
@@ -15,32 +17,22 @@ view a specific subset of tasks: All tasks, only the active task, or only the co
  */
 function App(props) {
   const [todos, setTodos] = useState([
-    { val: "Sleep", complete: true },
-    { val: "Eat", complete: false },
-    { val: "Bathe", complete: true },
-    { val: "Exercise", complete: false },
-    { val: "Watch Movie", complete: false },
+    { id: "todo-" + nanoid(), val: "Sleep", complete: true },
+    { id: "todo-" + nanoid(), val: "Eat", complete: false },
+    { id: "todo-" + nanoid(), val: "Bathe", complete: true },
+    { id: "todo-" + nanoid(), val: "Exercise", complete: false },
+    { id: "todo-" + nanoid(), val: "Watch Movie", complete: false },
   ]);
+
+  const addTask = (name) => {
+    const newTodo = { id: "todo-" + nanoid(), val: name, completed: false };
+    setTodos([...todos, newTodo]);
+  };
+
   return (
     <div className="todoapp stack-large">
-      <h1>TodoMatic</h1>
-      <form>
-        <h2 className="label-wrapper">
-          <label htmlFor="new-todo-input" className="label__lg">
-            What needs to be done?
-          </label>
-        </h2>
-        <input
-          type="text"
-          id="new-todo-input"
-          className="input input__lg"
-          name="text"
-          autoComplete="off"
-        />
-        <button type="submit" className="btn btn__primary btn__lg">
-          Add
-        </button>
-      </form>
+      <h1>To Do List </h1>
+      <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">
         <FilterButton name={"All"} />
         <FilterButton name={"Active"} />
@@ -53,8 +45,14 @@ function App(props) {
         aria-labelledby="list-heading"
       >
         {todos &&
-          todos.map((todo, index) => (
-            <ToDoItem key={index} name={todo.val} complete={todo.complete} />
+          todos.length > 0 &&
+          todos.map((todo, key) => (
+            <ToDoItem
+              key={key}
+              id={todo.id}
+              name={todo.val}
+              complete={todo.complete}
+            />
           ))}
       </ul>
     </div>
